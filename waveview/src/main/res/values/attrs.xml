@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveViewButton">
+        <attr name="wave_text" format="color" />
+        <attr name="wave_text_color" format="color" />
+        <attr name="wave_text_size" format="dimension" />
+        <attr name="wave_button_color" format="color" />
+        <attr name="wave_circle_color" format="color" />
+        <attr name="wave_circle_padding" format="dimension" />
+    </declare-styleable>
+</resources>
