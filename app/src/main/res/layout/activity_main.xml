@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.caoustc.test.wave.MainActivity">
 
-    <TextView
+    <com.caoustc.wave.WaveViewButton
+        android:id="@+id/wave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerInParent="true"
+        app:wave_button_color="#00a0e8"
+        app:wave_circle_color="#25c4ff"
+        app:wave_circle_padding="20dp"
+        app:wave_text="@string/app_name"
+        app:wave_text_color="#ffffff"
+        app:wave_text_size="16sp" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
