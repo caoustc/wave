@@ -24,7 +24,6 @@ dependencies {
 # Usage
 ```
 mWaveViewButton.setDuration(2000);
-mWaveViewButton.setStyle(Paint.Style.STROKE);
 mWaveViewButton.setSpeed(1000);
 mWaveViewButton.setInterpolator(new AccelerateInterpolator());
 mWaveViewButton.start();
