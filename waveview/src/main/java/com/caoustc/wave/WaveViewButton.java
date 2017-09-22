@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -21,7 +22,7 @@ import java.util.List;
  * 水波纹特效
  * Created by cz on 2017/8/14.
  */
-public class WaveViewButton extends View {
+public class WaveViewButton extends View implements WaveViewController{
 
     private final static int DEFAULT_TEXT_SIZE = 16; // sp
 
@@ -78,10 +79,8 @@ public class WaveViewButton extends View {
         backupColor = typedArray.getColor(R.styleable.WaveViewButton_wave_button_color, Color.GRAY);
         backupColor2 = typedArray.getColor(R.styleable.WaveViewButton_wave_circle_color, Color.GRAY);
         typedArray.recycle();
-    }
 
-    public void setStyle(Paint.Style style) {
-        mPaint.setStyle(style);
+        mPaint.setStyle(Paint.Style.STROKE);
     }
 
     private float dp2px(int dp) {
@@ -99,31 +98,6 @@ public class WaveViewButton extends View {
         if (!mMaxRadiusSet) {
             mMaxRadius = Math.min(w, h) * mMaxRadiusRate / 2.0f;
         }
-    }
-
-    public void setMaxRadiusRate(float maxRadiusRate) {
-        mMaxRadiusRate = maxRadiusRate;
-    }
-
-    public void setColor(int color) {
-        mPaint.setColor(color);
-    }
-
-    public void start() {
-        if (!mIsRunning) {
-            mIsRunning = true;
-            mCreateCircle.run();
-        }
-    }
-
-    public void stop() {
-        mIsRunning = false;
-    }
-
-    public void stopImmediately() {
-        mIsRunning = false;
-        mCircleList.clear();
-        invalidate();
     }
 
     @Override
@@ -155,19 +129,6 @@ public class WaveViewButton extends View {
                 break;
         }
         return result;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        setClickable(enabled);
-        if (enabled){
-            buttonColor = backupColor;
-            circleColor = backupColor2;
-        } else {
-            buttonColor = Color.parseColor("#e6e6e6");
-            circleColor = Color.parseColor("#e6e6e6");
-        }
     }
 
     @Override
@@ -205,7 +166,8 @@ public class WaveViewButton extends View {
         paint.setTextAlign(Paint.Align.CENTER);
 
         Rect rect = new Rect();
-        paint.getTextBounds(createText, 0, createText.length(), rect);
+        if (!TextUtils.isEmpty(createText))
+            paint.getTextBounds(createText, 0, createText.length(), rect);
         int h = rect.height();
 
         float baseline = oval.top + (oval.bottom - oval.top + h) / 2;
@@ -214,37 +176,88 @@ public class WaveViewButton extends View {
         canvas.drawText(createText, textX, baseline, paint);
     }
 
+    @Override
+    public void setMaxRadiusRate(float maxRadiusRate) {
+        mMaxRadiusRate = maxRadiusRate;
+    }
+
+    @Override
+    public void setColor(int color) {
+        mPaint.setColor(color);
+    }
+
+    @Override
+    public void start() {
+        if (!mIsRunning) {
+            mIsRunning = true;
+            mCreateCircle.run();
+        }
+    }
+
+    @Override
+    public void stop() {
+        mIsRunning = false;
+    }
+
+    @Override
+    public void stopImmediately() {
+        mIsRunning = false;
+        mCircleList.clear();
+        invalidate();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        setClickable(enabled);
+        if (enabled) {
+            buttonColor = backupColor;
+            circleColor = backupColor2;
+        } else {
+            buttonColor = Color.parseColor("#e6e6e6");
+            circleColor = Color.parseColor("#e6e6e6");
+        }
+    }
+
+    @Override
     public void setInitialRadius(float radius) {
         mInitialRadius = radius;
     }
 
+    @Override
     public void setDuration(long duration) {
         mDuration = duration;
     }
 
+    @Override
     public void setMaxRadius(float maxRadius) {
         mMaxRadius = maxRadius;
         mMaxRadiusSet = true;
     }
 
+    @Override
     public void setSpeed(int speed) {
         mSpeed = speed;
     }
 
+    @Override
     public void setTextColor(int textColor) {
         this.textColor = getContext().getResources().getColor(textColor);
     }
 
+    @Override
     public void setButtonColor(int buttonColor) {
         this.buttonColor = getContext().getResources().getColor(buttonColor);
         this.backupColor = getContext().getResources().getColor(buttonColor);
     }
 
+    @Override
     public void setCircleColor(int circleColor) {
         this.circleColor = getContext().getResources().getColor(circleColor);
         this.backupColor2 = getContext().getResources().getColor(circleColor);
     }
 
+    @Override
     public void setText(String createText) {
         this.createText = createText;
     }
