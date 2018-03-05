@@ -39,11 +39,11 @@ public class WaveViewButton extends View implements WaveViewController {
     private float padding;
     private String createText;
     private float textSize;
-    private int textColor;
-    private int buttonColor;
-    private int circleColor;
-    private int backupColor;
-    private int backupColor2;
+    private int mTextColor;
+    private int mButtonColor;
+    private int mCircleColor;
+    private int mBackupColor;
+    private int mBackupColor2;
 
     private int mWaveTagType;
 
@@ -75,11 +75,11 @@ public class WaveViewButton extends View implements WaveViewController {
         createText = typedArray.getString(R.styleable.WaveViewButton_wave_text);
         padding = typedArray.getDimension(R.styleable.WaveViewButton_wave_circle_padding, dp2px(10));
         textSize = typedArray.getDimension(R.styleable.WaveViewButton_wave_text_size, sp2px(DEFAULT_TEXT_SIZE));
-        textColor = typedArray.getColor(R.styleable.WaveViewButton_wave_text_color, Color.WHITE);
-        buttonColor = typedArray.getColor(R.styleable.WaveViewButton_wave_button_color, Color.GRAY);
-        circleColor = typedArray.getColor(R.styleable.WaveViewButton_wave_circle_color, Color.GRAY);
-        backupColor = typedArray.getColor(R.styleable.WaveViewButton_wave_button_color, Color.GRAY);
-        backupColor2 = typedArray.getColor(R.styleable.WaveViewButton_wave_circle_color, Color.GRAY);
+        mTextColor = typedArray.getColor(R.styleable.WaveViewButton_wave_text_color, Color.WHITE);
+        mButtonColor = typedArray.getColor(R.styleable.WaveViewButton_wave_button_color, Color.GRAY);
+        mCircleColor = typedArray.getColor(R.styleable.WaveViewButton_wave_circle_color, Color.GRAY);
+        mBackupColor = typedArray.getColor(R.styleable.WaveViewButton_wave_button_color, Color.GRAY);
+        mBackupColor2 = typedArray.getColor(R.styleable.WaveViewButton_wave_circle_color, Color.GRAY);
         typedArray.recycle();
 
         mPaint.setStyle(Paint.Style.STROKE);
@@ -161,10 +161,10 @@ public class WaveViewButton extends View implements WaveViewController {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(buttonColor);
+        paint.setColor(mButtonColor);
         canvas.drawOval(oval, paint);
 
-        paint.setColor(textColor);
+        paint.setColor(mTextColor);
         paint.setTextSize(textSize);
         paint.setTextAlign(Paint.Align.CENTER);
 
@@ -215,11 +215,11 @@ public class WaveViewButton extends View implements WaveViewController {
         super.setEnabled(enabled);
         setClickable(enabled);
         if (enabled) {
-            buttonColor = backupColor;
-            circleColor = backupColor2;
+            mButtonColor = mBackupColor;
+            mCircleColor = mBackupColor2;
         } else {
-            buttonColor = Color.parseColor("#e6e6e6");
-            circleColor = Color.parseColor("#e6e6e6");
+            mButtonColor = Color.parseColor("#e6e6e6");
+            mCircleColor = Color.parseColor("#e6e6e6");
         }
     }
 
@@ -246,19 +246,21 @@ public class WaveViewButton extends View implements WaveViewController {
 
     @Override
     public void setTextColor(int textColor) {
-        this.textColor = getContext().getResources().getColor(textColor);
+        this.mTextColor = getContext().getResources().getColor(textColor);
     }
 
     @Override
     public void setButtonColor(int buttonColor) {
-        this.buttonColor = getContext().getResources().getColor(buttonColor);
-        this.backupColor = getContext().getResources().getColor(buttonColor);
+        this.mButtonColor = getContext().getResources().getColor(buttonColor);
+        this.mBackupColor = getContext().getResources().getColor(buttonColor);
     }
 
     @Override
     public void setCircleColor(int circleColor) {
-        this.circleColor = getContext().getResources().getColor(circleColor);
-        this.backupColor2 = getContext().getResources().getColor(circleColor);
+        this.mCircleColor = getContext().getResources().getColor(circleColor);
+        this.mBackupColor2 = getContext().getResources().getColor(circleColor);
+
+        mPaint.setColor(mCircleColor);
     }
 
     @Override

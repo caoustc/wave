@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         waveViewButton.setDuration(2000);
         waveViewButton.setSpeed(600);
         waveViewButton.setCirclePadding(50);
-        waveViewButton.setColor(getResources().getColor(R.color.colorAccent));
+        waveViewButton.setCircleColor(R.color.colorAccent);
         waveViewButton.setButtonColor(R.color.colorAccent);
         //waveViewButton.setColor(Color.parseColor("#25c4ff"));
         waveViewButton.setCircleStyle(Paint.Style.STROKE);
