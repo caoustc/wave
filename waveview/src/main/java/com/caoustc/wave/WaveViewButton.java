@@ -22,7 +22,7 @@ import java.util.List;
  * 水波纹特效
  * Created by cz on 2017/8/14.
  */
-public class WaveViewButton extends View implements WaveViewController{
+public class WaveViewButton extends View implements WaveViewController {
 
     private final static int DEFAULT_TEXT_SIZE = 16; // sp
 
@@ -44,6 +44,8 @@ public class WaveViewButton extends View implements WaveViewController{
     private int circleColor;
     private int backupColor;
     private int backupColor2;
+
+    private int mWaveTagType;
 
     private Runnable mCreateCircle = new Runnable() {
         @Override
@@ -133,21 +135,22 @@ public class WaveViewButton extends View implements WaveViewController{
 
     @Override
     protected void onDraw(Canvas canvas) {
-        drawCircleText(canvas);
-
         Iterator<Circle> iterator = mCircleList.iterator();
         while (iterator.hasNext()) {
             Circle circle = iterator.next();
             float radius = circle.getCurrentRadius();
             if (System.currentTimeMillis() - circle.mCreateTime < mDuration) {
                 mPaint.setAlpha(circle.getAlpha());
-                mPaint.setColor(circleColor);
-                mPaint.setStrokeWidth(2);
+                //mPaint.setColor(circleColor);
+                //mPaint.setStrokeWidth(2);
                 canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius, mPaint);
             } else {
                 iterator.remove();
             }
         }
+
+        drawCircleText(canvas);
+
         if (mCircleList.size() > 0) {
             postInvalidateDelayed(10);
         }
@@ -166,8 +169,9 @@ public class WaveViewButton extends View implements WaveViewController{
         paint.setTextAlign(Paint.Align.CENTER);
 
         Rect rect = new Rect();
-        if (!TextUtils.isEmpty(createText))
+        if (!TextUtils.isEmpty(createText)) {
             paint.getTextBounds(createText, 0, createText.length(), rect);
+        }
         int h = rect.height();
 
         float baseline = oval.top + (oval.bottom - oval.top + h) / 2;
@@ -262,6 +266,25 @@ public class WaveViewButton extends View implements WaveViewController{
         this.createText = createText;
     }
 
+    public void setCirclePadding(float padding) {
+        this.padding = padding;
+    }
+
+    public int getWaveTagType() {
+        return mWaveTagType;
+    }
+
+    public void setWaveTagType(int waveTagType) {
+        mWaveTagType = waveTagType;
+    }
+
+    public void setCircleStyle(Paint.Style style) {
+        if (mPaint != null) {
+            mPaint.setStyle(style);
+            invalidate();
+        }
+    }
+
     private void newCircle() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - mLastCreateTime < mSpeed) {
@@ -282,7 +305,7 @@ public class WaveViewButton extends View implements WaveViewController{
 
         int getAlpha() {
             float percent = (getCurrentRadius() - mInitialRadius) / (mMaxRadius - mInitialRadius);
-            return (int) (255 - mInterpolator.getInterpolation(percent) * 255);
+            return (int) (255 - mInterpolator.getInterpolation(percent) * 255) / (mPaint.getStyle() == Paint.Style.STROKE ? 1 : 2);
         }
 
         float getCurrentRadius() {

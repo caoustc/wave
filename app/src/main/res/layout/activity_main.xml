@@ -18,4 +18,9 @@
         app:wave_text_color="#ffffff"
         app:wave_text_size="16sp" />
 
+    <com.caoustc.wave.WaveView
+        android:id="@+id/wave_view"
+        android:layout_below="@+id/wave"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>
