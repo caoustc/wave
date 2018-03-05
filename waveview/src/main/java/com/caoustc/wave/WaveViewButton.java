@@ -83,6 +83,7 @@ public class WaveViewButton extends View implements WaveViewController {
         typedArray.recycle();
 
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(mCircleColor);
     }
 
     private float dp2px(int dp) {
