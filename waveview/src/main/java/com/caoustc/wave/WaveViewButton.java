@@ -187,7 +187,9 @@ public class WaveViewButton extends View implements WaveViewController {
 
     @Override
     public void setColor(int color) {
-        mPaint.setColor(color);
+        if (mPaint != null) {
+            mPaint.setColor(color);
+        }
     }
 
     @Override
@@ -260,7 +262,10 @@ public class WaveViewButton extends View implements WaveViewController {
         this.mCircleColor = getContext().getResources().getColor(circleColor);
         this.mBackupColor2 = getContext().getResources().getColor(circleColor);
 
-        mPaint.setColor(mCircleColor);
+        if (mPaint != null) {
+            mPaint.setColor(mCircleColor);
+            invalidate();
+        }
     }
 
     @Override
