@@ -141,6 +141,7 @@ public class WaveViewButton extends View implements WaveViewController {
             Circle circle = iterator.next();
             float radius = circle.getCurrentRadius();
             if (System.currentTimeMillis() - circle.mCreateTime < mDuration) {
+                mPaint.setColor(mCircleColor);
                 mPaint.setAlpha(circle.getAlpha());
                 //mPaint.setColor(circleColor);
                 //mPaint.setStrokeWidth(2);
@@ -262,11 +263,6 @@ public class WaveViewButton extends View implements WaveViewController {
     public void setCircleColor(int circleColor) {
         this.mCircleColor = getContext().getResources().getColor(circleColor);
         this.mBackupColor2 = getContext().getResources().getColor(circleColor);
-
-        if (mPaint != null) {
-            mPaint.setColor(mCircleColor);
-            invalidate();
-        }
     }
 
     @Override
@@ -289,7 +285,6 @@ public class WaveViewButton extends View implements WaveViewController {
     public void setCircleStyle(Paint.Style style) {
         if (mPaint != null) {
             mPaint.setStyle(style);
-            invalidate();
         }
     }
 
