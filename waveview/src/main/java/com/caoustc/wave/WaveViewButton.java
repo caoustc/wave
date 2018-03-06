@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -166,7 +169,7 @@ public class WaveViewButton extends View implements WaveViewController {
         paint.setColor(mButtonColor);
         canvas.drawOval(oval, paint);
 
-        paint.setColor(mTextColor);
+        /*paint.setColor(mTextColor);
         paint.setTextSize(textSize);
         paint.setTextAlign(Paint.Align.CENTER);
 
@@ -178,8 +181,28 @@ public class WaveViewButton extends View implements WaveViewController {
 
         float baseline = oval.top + (oval.bottom - oval.top + h) / 2;
         float textX = oval.left + getWidth() / 2 - padding;
+        canvas.drawText(createText, textX, baseline, paint);*/
 
-        canvas.drawText(createText, textX, baseline, paint);
+        Rect rect = new Rect();
+        if (!TextUtils.isEmpty(createText)) {
+            paint.getTextBounds(createText, 0, createText.length(), rect);
+        }
+        int h = rect.height();
+        //float baseline = oval.top + (oval.bottom - oval.top + h) / 2;
+        float textX = oval.left + getWidth() / 2 - padding;
+        //float baseLineY = Math.abs(paint.ascent() + paint.descent()) / 2;
+
+        TextPaint textPaint = new TextPaint();
+        textPaint.setColor(mTextColor);
+        textPaint.setTextSize(textSize);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setAntiAlias(true);
+        StaticLayout layout = new StaticLayout(createText, textPaint, getWidth(),
+                Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
+        canvas.save();
+        canvas.translate(textX, getHeight() / 2 - layout.getLineCount() * h * 2);
+        layout.draw(canvas);
+        canvas.restore();
     }
 
     @Override
