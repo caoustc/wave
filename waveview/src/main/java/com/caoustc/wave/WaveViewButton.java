@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -183,26 +182,23 @@ public class WaveViewButton extends View implements WaveViewController {
         float textX = oval.left + getWidth() / 2 - padding;
         canvas.drawText(createText, textX, baseline, paint);*/
 
-        Rect rect = new Rect();
-        if (!TextUtils.isEmpty(createText)) {
-            paint.getTextBounds(createText, 0, createText.length(), rect);
-        }
-        int h = rect.height();
         //float baseline = oval.top + (oval.bottom - oval.top + h) / 2;
-        float textX = oval.left + getWidth() / 2 - padding;
+        //float textX = oval.left + getWidth() / 2 - padding;
         //float baseLineY = Math.abs(paint.ascent() + paint.descent()) / 2;
 
-        TextPaint textPaint = new TextPaint();
-        textPaint.setColor(mTextColor);
-        textPaint.setTextSize(textSize);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setAntiAlias(true);
-        StaticLayout layout = new StaticLayout(createText, textPaint, getWidth(),
-                Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
-        canvas.save();
-        canvas.translate(textX, getHeight() / 2 - layout.getLineCount() * h * 2);
-        layout.draw(canvas);
-        canvas.restore();
+        if (!TextUtils.isEmpty(createText)) {
+            TextPaint textPaint = new TextPaint();
+            textPaint.setColor(mTextColor);
+            textPaint.setTextSize(textSize);
+            textPaint.setTextAlign(Paint.Align.CENTER);
+            textPaint.setAntiAlias(true);
+            StaticLayout layout = new StaticLayout(createText, textPaint, getWidth(),
+                    Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
+            canvas.save();
+            canvas.translate(getWidth() / 2, (getHeight() - layout.getHeight()) / 2);
+            layout.draw(canvas);
+            canvas.restore();
+        }
     }
 
     @Override

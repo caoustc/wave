@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">waveview</string>
+    <string name="alarm_call">紧急\n呼叫</string>
 </resources>
